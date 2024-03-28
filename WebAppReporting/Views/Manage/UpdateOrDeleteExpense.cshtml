@@ -1,0 +1,53 @@
+﻿@using WebAppReporting.Models.EFModels
+@model Expense
+
+<h1>Обновление Expense</h1>
+
+<form asp-controller="Manage" asp-action="UpdateOrDeleteExpense" method="post">
+    <div>
+        <input class="form-control" type="hidden" asp-for="Id" />
+        <label asp-for="Id"></label>: @Model.Id
+    </div>
+    <div>
+        <label asp-for="Amount"></label>:   <input class="form-control" type="number" asp-for="Amount" />
+    </div>
+    <div>
+        <label asp-for="Date"></label>:      <input class="form-control" type="date" asp-for="Date" />
+    </div>
+    <div>
+        <label asp-for="Comment"></label>:    <input class="form-control" type="text" asp-for="Comment" />
+    </div>
+    <div>
+        <label asp-for="CategoryId"></label>:  <input class="form-control" type="text" asp-for="CategoryId" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Обновить</button>
+    <button type="button" onclick="deleteExpense()" class="btn btn-danger mt-3 ms-3">Удалить</button>
+</form>
+
+
+
+<script>
+    function deleteExpense() {
+        var confirmation = confirm("Вы уверены, что хотите удалить Expense?");
+        if (confirmation) {
+            // Отправляем асинхронный запрос на удаление категории
+            $.ajax({
+                url: '@Url.Action("DeleteExpense", "Manage")', 
+                type: 'POST', // Метод запроса
+                data: { id: @Model.Id }, 
+                success: function (response) {
+                    // Обработка успешного ответа
+                    alert("Категория успешно удалена");
+                    // Перенаправляем пользователя на страницу Home Category после удаления
+                    window.location.href = '@Url.Action("Category", "Home")';
+                },
+                error: function (xhr, status, error) {
+                    // Обработка ошибки
+                    console.error(xhr.responseText);
+                    alert("Произошла ошибка при удалении категории");
+                }
+            });
+        }
+    }
+</script>

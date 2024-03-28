@@ -1,0 +1,30 @@
+﻿@model List<string>
+
+<h1>Add Categories</h1>
+
+<form asp-controller="Manage" asp-action="AddCategory" method="post">
+    <div id="categoryInputs">
+        <div class="form-group">
+            <label for="categoryName">Category Name:</label>
+            <input type="text" class="form-control" name="categoryName[0]" required>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary mt-3" onclick="addCategory()">Add Category</button>
+    <button type="submit" class="btn btn-success mt-3 ms-3">Save</button>
+</form>
+
+<script>
+    function addCategory() {
+        var categoryInputs = document.getElementById("categoryInputs");
+        var inputIndex = categoryInputs.childElementCount; // Узнаем количество текущих полей ввода
+        var newInput = document.createElement("div"); // Создаем новый элемент div
+        newInput.className = "form-group"; // Устанавливаем класс новому элементу
+        newInput.innerHTML = `
+                <label for="categoryName">Category Name:</label>
+                <input type="text" class="form-control" name="categoryName[${inputIndex}]" required>
+            `; // Устанавливаем содержимое нового элемента
+
+        categoryInputs.appendChild(newInput); // Добавляем новый элемент в форму
+    }
+</script>

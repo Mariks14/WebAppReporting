@@ -1,0 +1,102 @@
+﻿@using WebAppReporting.Models.EFModels
+
+<style>
+    @@font-face {
+        font-family: 'FontAwesome';
+        src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2') format('woff2'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff') format('woff'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/fonts/fontawesome-webfont.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal
+    }
+
+    .glyphicon {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale
+    }
+
+    .glyphicon-chevron-right:before {
+        content: "\f054";
+    }
+
+    .glyphicon-chevron-left:before {
+        content: "\f053";
+    }
+</style>
+
+<h1>Список expense из категории - @ViewBag.Category</h1>
+
+<button class="btn btn-info" type="submit"><a class="nav-link text-dark" style="font-weight: bold;" asp-controller="Manage" asp-action="AddExpense">Добавить expense</a></button>
+
+
+<table class="table">
+    <tr><th>Id</th><th>Amount</th><th>Date</th><th>Comment</th><th>Modify</th></tr>
+    @foreach (Expense u in Model.List)
+    {
+        <tr>
+            <td>@u.Id</td>
+            <td>@u.Amount</td>
+            <td>@u.Date.ToString("dd/MM/yyyy")</td>
+            <td>@u.Comment</td>
+            <td><a asp-controller="Manage" asp-action="UpdateOrDeleteExpense" asp-route-id="@u.Id">изменить</a></td>
+        </tr>
+    }
+</table>
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Expense"
+       asp-route-category="@ViewBag.Category"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Expense"
+       asp-route-category="@ViewBag.Category"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-outline-dark">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Функция сортировки при клике на заголовок столбца
+        $("th").click(function () {
+            var table = $(this).parents('table').eq(0);
+            var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+            this.asc = !this.asc;
+            if (!this.asc) {
+                rows = rows.reverse();
+            }
+            for (var i = 0; i < rows.length; i++) {
+                table.append(rows[i]);
+            }
+        });
+
+        // Функция для сравнения значений столбцов
+        function comparer(index) {
+            return function (a, b) {
+                var valA = getCellValue(a, index);
+                var valB = getCellValue(b, index);
+                return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB);
+            };
+        }
+
+        // Функция для получения значения ячейки
+        function getCellValue(row, index) {
+            return $(row).children('td').eq(index).text();
+        }
+    });
+</script>
+
+

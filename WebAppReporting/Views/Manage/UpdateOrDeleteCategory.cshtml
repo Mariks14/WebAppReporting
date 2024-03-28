@@ -1,0 +1,53 @@
+﻿@using WebAppReporting.Models.EFModels
+@model Category
+
+<h1>Обновление категории</h1>
+
+<form asp-controller="Manage" asp-action="UpdateOrDeleteCategory" method="post">
+    <div>
+        <input type="hidden" asp-for="Id" />
+        <label asp-for="Id"></label>: @Model.Id
+    </div>
+    <div>
+        <label asp-for="Name"></label>: <input type="text" asp-for="Name" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Обновить</button>
+    <button type="button" onclick="deleteCategory()" class="btn btn-danger mt-3 ms-3">Удалить</button>
+</form>
+
+@* <script>
+    function deleteCategory() {
+        var confirmation = confirm("Вы уверены, что хотите удалить категорию?");
+        if (confirmation) {
+            
+            // $.post('@Url.Action("DeleteCategory", "Manage")', { id: @Model.Id });
+            
+            alert("Категория успешно удалена");
+        }
+    }
+</script> *@
+
+<script>
+    function deleteCategory() {
+        var confirmation = confirm("Вы уверены, что хотите удалить категорию?");
+        if (confirmation) {
+            // Отправляем асинхронный запрос на удаление категории
+            $.ajax({
+                url: '@Url.Action("DeleteCategory", "Manage")', // URL-адрес метода контроллера для удаления категории
+                type: 'POST', // Метод запроса
+                data: { id: @Model.Id, name: '@Model.Name' }, // Данные, которые будут отправлены на сервер (ID и имя категории)
+                success: function (response) {
+                    // Обработка успешного ответа
+                    alert("Категория успешно удалена");
+                    // Перенаправляем пользователя на страницу Home Category после удаления
+                    window.location.href = '@Url.Action("Category", "Home")';
+                },
+                error: function (xhr, status, error) {
+                    // Обработка ошибки
+                    console.error(xhr.responseText);
+                    alert("Произошла ошибка при удалении категории");
+                }
+            });
+        }
+    }
+</script>

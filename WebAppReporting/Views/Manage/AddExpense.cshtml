@@ -1,0 +1,51 @@
+﻿@using WebAppReporting.Models.EFModels
+@model List<Expense>
+
+<h1>Add Expense </h1>
+
+
+<form id="expenseForm" asp-controller="Manage" asp-action="AddExpense" method="post">
+    <div id="expenseInputs">
+        <div class="form-group">
+            <label for="expenses[0].Amount">Amount:</label>
+            <input type="number" class="form-control" name="expenses[0].Amount" required>
+        </div>
+        <div class="form-group">
+            <label for="expenses[0].Date">Date:</label>
+            <input type="date" class="form-control" name="expenses[0].Date" required>
+        </div>
+        <div class="form-group">
+            <label for="expenses[0].Comment">Comment:</label>
+            <input type="text" class="form-control" name="expenses[0].Comment">
+        </div>
+        <div class="form-group">
+            <label for="expenses[0].CategoryId">Category:</label>
+            <input type="text" class="form-control" name="expenses[0].CategoryId">
+        </div>
+    </div>
+    @* <button type="button" class="btn btn-primary mt-3" onclick="addExpense()">Add Expense</button> *@
+    <button type="submit" class="btn btn-success mt-3 ms-3">Save</button>
+</form>
+
+@* <script>
+    function addExpense() {
+        var expenseInputs = document.getElementById("expenseInputs");
+        var inputIndex = expenseInputs.querySelectorAll(".form-group").length; // Получаем количество текущих групп
+
+        var newExpenseGroup = document.createElement("div");
+        newExpenseGroup.className = "form-group"; // Устанавливаем класс для новой группы
+        newExpenseGroup.innerHTML = `
+                <label class="mt-4" for="expenses[${inputIndex}].Amount">Amount:</label>
+                <input type="number" class="form-control" name="expenses[${inputIndex}].Amount" required>
+                <label for="expenses[${inputIndex}].Date">Date:</label>
+                <input type="date" class="form-control" name="expenses[${inputIndex}].Date" required>
+                <label for="expenses[${inputIndex}].Comment">Comment:</label>
+                <input type="text" class="form-control" name="expenses[${inputIndex}].Comment">
+                <label for="expenses[${inputIndex}].CategoryId">Category:</label>
+                <input type="text" class="form-control" name="expenses[${inputIndex}].CategoryId">
+            `;
+
+        expenseInputs.appendChild(newExpenseGroup); // Добавляем новую группу в форму
+    }
+</script> *@
+
