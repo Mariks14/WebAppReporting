@@ -38,14 +38,14 @@
                 data: { id: @Model.Id }, 
                 success: function (response) {
                     // Обработка успешного ответа
-                    alert("Категория успешно удалена");
+                    alert("Expense успешно удалена");
                     // Перенаправляем пользователя на страницу Home Category после удаления
                     window.location.href = '@Url.Action("Category", "Home")';
                 },
                 error: function (xhr, status, error) {
                     // Обработка ошибки
                     console.error(xhr.responseText);
-                    alert("Произошла ошибка при удалении категории");
+                    alert("Произошла ошибка при удалении Expense");
                 }
             });
         }

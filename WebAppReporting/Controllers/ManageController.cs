@@ -67,12 +67,25 @@ namespace WebAppReporting.Controllers
         [HttpPost]
         public IActionResult DeleteCategory(string id, string name)
         {
-            //Console.WriteLine("delete category" +id + " " + name);
+            Category takeCategory = _context.Category
+                                    .Include(c => c.Expenses) // Включаем связанные расходы
+                                    .FirstOrDefault(c => c.Id == int.Parse(id));
 
-            Category takeCategory = _context.Category.Where(c => c.Id == int.Parse(id)).FirstOrDefault();
+            if (takeCategory != null)
+            {
+                // Удаляем все связанные с категорией расходы
+                if (takeCategory.Expenses.Count != 0)
+                {
+                    _context.Expense.RemoveRange(takeCategory.Expenses);
+                }
+                
 
-            _context.Remove(takeCategory);
-            _context.SaveChanges();               // удаляем категорию
+                // Удаляем саму категорию
+                _context.Remove(takeCategory);
+
+                // Сохраняем изменения в базе данных
+                _context.SaveChanges();
+            }
 
 
             return RedirectToAction("Category", "Home");
