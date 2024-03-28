@@ -6,4 +6,7 @@
 
 <img width="800" alt="image" src="https://github.com/Mariks14/WebAppReporting/assets/92689098/c3489dc5-b572-4bad-b79a-639c613903da">
 
+https://github.com/Mariks14/WebAppReporting/assets/92689098/4f7f3e38-2b50-4f54-9e9c-ca591e4ec3a0
+
+
 
